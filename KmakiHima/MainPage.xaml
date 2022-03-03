@@ -9,18 +9,16 @@
         </Frame>
         <Label x:Name="lblQueue" Text="0 viestiä jonossa" FontSize="Title" Padding="30,10,30,10" Margin="0,-5" HorizontalTextAlignment="Center"
                TextColor="Black" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand"/>
-        <Grid x:Name="ActiveMessageGrid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-              Margin="10,20,10,20" IsVisible="false">
-                <Label x:Name="lblTimeStamp" Text="Lähetetty MM.dd HH.mm.ss" Margin="5,10,10,0" FontSize="Title" TextColor="Black"/>
-                <Editor x:Name="eMessage" Margin="5,0,5,0" IsEnabled="False" VerticalOptions="CenterAndExpand"/>
+        <StackLayout x:Name="slActiveAlert" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+            Margin="10,20,10,20" IsVisible="false">
+            <Label x:Name="lblTimeStamp" Text="Lähetetty MM.dd HH.mm.ss" Margin="5,10,10,0" FontSize="Title" TextColor="Black"/>
+            <Editor x:Name="eMessage" Margin="5,0,5,0" IsEnabled="False" VerticalOptions="CenterAndExpand"/>
 
-                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HeightRequest="120">
-                    <Button x:Name="btnAccept" Text="Tervetuloa" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Green"/>
-                    <Button x:Name="btnDecline" Text="Ei käy" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Red"/>
-                </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HeightRequest="120">
+                <Button x:Name="btnAccept" Text="Tervetuloa" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Green" Clicked="btnAccept_Clicked"/>
+                <Button x:Name="btnDecline" Text="Ei käy" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Red" Clicked="btnDecline_Clicked"/>
             </StackLayout>
-        </Grid>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

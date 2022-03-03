@@ -1,38 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace KmakiHima
 {
     public partial class MainPage : ContentPage
     {
-        private readonly INotificationManager notificationManager;
+        private RestService restService;
+        private AlertItem activeAlert;
 
         public MainPage()
         {
             InitializeComponent();
 
-            notificationManager = DependencyService.Get<INotificationManager>();
-            notificationManager.NotificationReceived += (sender, eventArgs) =>
-            {
-                NotificationEventArgs evtData = (NotificationEventArgs)eventArgs;
-                ShowNotification(evtData.Title, evtData.Message);
-            };
+            restService = new RestService();
         }
 
-        private void ShowNotification(string title, string message)
+        public async void RefreshAlertList(bool refreshService = false)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            if (refreshService)
             {
-                var msg = new Label()
-                {
-                    Text = $"Notification Received:\nTitle: {title}\nMessage: {message}"
-                };
-            });
+                await restService.RefreshAlertsAsync();
+            }
+
+            lblQueue.Text = $"{restService.ActiveAlerts?.Count ?? 0} viestiä jonossa";
+            activeAlert = restService.ActiveAlerts?.OrderByDescending(a => a.ServerTime).FirstOrDefault();
+
+            if (activeAlert == null)
+            {
+                slActiveAlert.IsVisible = false;
+            }
+            else
+            {
+                slActiveAlert.IsVisible = true;
+                lblTimeStamp.Text = $"Lähetetty {activeAlert.ServerTime:MM.dd HH.mm}";
+                eMessage.Text = activeAlert.Message;
+            }
+        }
+
+        private async void btnAccept_Clicked(object sender, EventArgs e)
+        {
+            activeAlert.Approved = true;
+            await restService.UpdateAlertStatus(activeAlert);
+            RefreshAlertList();
+        }
+
+        private async void btnDecline_Clicked(object sender, EventArgs e)
+        {
+            activeAlert.Declined = true;
+            await restService.UpdateAlertStatus(activeAlert);
+            RefreshAlertList();
         }
     }
 }

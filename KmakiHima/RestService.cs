@@ -11,7 +11,8 @@ namespace KmakiHima
     public class RestService
     {
         private readonly HttpClient client;
-        private readonly Uri alertItemsUri;
+        private readonly Uri allAlertsUri;
+        private readonly Uri newAlertsUri;
         public List<AlertItem> ActiveAlerts { get; private set; }
 
         public RestService()
@@ -29,14 +30,15 @@ namespace KmakiHima
                 BaseAddress = new Uri(Constants.BASE_URL)
             };
 
-            alertItemsUri = new Uri("/alertitems", UriKind.Relative);
+            allAlertsUri = new Uri(Constants.ALL_ALERTS_URS);
+            newAlertsUri = new Uri(Constants.NEW_ALERTS_URS);
         }
 
         public async Task RefreshAlertsAsync()
         {
             try
             {
-                HttpResponseMessage response = await client.GetAsync(alertItemsUri);
+                HttpResponseMessage response = await client.GetAsync(newAlertsUri);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -57,7 +59,7 @@ namespace KmakiHima
                 string json = JsonConvert.SerializeObject(alert);
                 StringContent content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PutAsync(alertItemsUri, content);
+                HttpResponseMessage response = await client.PutAsync(allAlertsUri, content);
 
                 await RefreshAlertsAsync();
             }
