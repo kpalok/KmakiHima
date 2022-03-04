@@ -18,7 +18,11 @@
                 <Button x:Name="btnAccept" Text="Tervetuloa" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Green" Clicked="btnAccept_Clicked"/>
                 <Button x:Name="btnDecline" Text="Ei käy" HorizontalOptions="End" VerticalOptions="End" BackgroundColor="Red" Clicked="btnDecline_Clicked"/>
             </StackLayout>
+
         </StackLayout>
+        <Button x:Name="btnRefresh" Text="Päivitä" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                Clicked="btnRefresh_Clicked"  WidthRequest="300" HeightRequest="300" CornerRadius="200" 
+                BorderColor="Black" BorderWidth="3" BackgroundColor="Green" IsVisible="true"/>
     </StackLayout>
 
 </ContentPage>

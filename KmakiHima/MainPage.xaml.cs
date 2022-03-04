@@ -29,10 +29,12 @@ namespace KmakiHima
             if (activeAlert == null)
             {
                 slActiveAlert.IsVisible = false;
+                btnRefresh.IsVisible = true;
             }
             else
             {
                 slActiveAlert.IsVisible = true;
+                btnRefresh.IsVisible = false;
                 lblTimeStamp.Text = $"Lähetetty {activeAlert.ServerTime:MM.dd HH.mm}";
                 eMessage.Text = activeAlert.Message;
             }
@@ -50,6 +52,11 @@ namespace KmakiHima
             activeAlert.Declined = true;
             await restService.UpdateAlertStatus(activeAlert);
             RefreshAlertList();
+        }
+
+        private void btnRefresh_Clicked(object sender, EventArgs e)
+        {
+            RefreshAlertList(true);
         }
     }
 }

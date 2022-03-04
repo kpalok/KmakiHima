@@ -1,7 +1,5 @@
-﻿using Android.Content;
-using System;
+﻿using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace KmakiHima
 {
