@@ -6,25 +6,25 @@ namespace KmakiHima
 {
     public partial class MainPage : ContentPage
     {
-        private RestService restService;
         private AlertItem activeAlert;
+        public RestService RestService { get; private set; }
 
         public MainPage()
         {
             InitializeComponent();
 
-            restService = new RestService();
+            RestService = new RestService();
         }
 
         public async void RefreshAlertList(bool refreshService = false)
         {
             if (refreshService)
             {
-                await restService.RefreshAlertsAsync();
+                await RestService.RefreshAlertsAsync();
             }
 
-            lblQueue.Text = $"{restService.ActiveAlerts?.Count ?? 0} viestiä jonossa";
-            activeAlert = restService.ActiveAlerts?.OrderByDescending(a => a.ServerTime).FirstOrDefault();
+            lblQueue.Text = $"{RestService.ActiveAlerts?.Count ?? 0} viestiä jonossa";
+            activeAlert = RestService.ActiveAlerts?.OrderByDescending(a => a.ServerTime).FirstOrDefault();
 
             if (activeAlert == null)
             {
@@ -43,14 +43,14 @@ namespace KmakiHima
         private async void btnAccept_Clicked(object sender, EventArgs e)
         {
             activeAlert.Approved = true;
-            await restService.UpdateAlertStatus(activeAlert);
+            await RestService.UpdateAlertStatus(activeAlert);
             RefreshAlertList();
         }
 
         private async void btnDecline_Clicked(object sender, EventArgs e)
         {
             activeAlert.Declined = true;
-            await restService.UpdateAlertStatus(activeAlert);
+            await RestService.UpdateAlertStatus(activeAlert);
             RefreshAlertList();
         }
 

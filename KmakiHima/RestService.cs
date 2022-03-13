@@ -36,6 +36,7 @@ namespace KmakiHima
 
         public async Task RefreshAlertsAsync()
         {
+            DateTime start = DateTime.Now;
             try
             {
                 HttpResponseMessage response = await client.GetAsync(newAlertsUri);
@@ -50,6 +51,8 @@ namespace KmakiHima
             {
                 Debug.WriteLine(ex.Message);
             }
+
+            Debug.WriteLine($"Alert count {ActiveAlerts.Count} refresh took {DateTime.Now.Subtract(start).TotalSeconds} seconds");
         }
 
         public async Task UpdateAlertStatus(AlertItem alert)
